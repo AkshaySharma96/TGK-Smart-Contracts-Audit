@@ -2,6 +2,7 @@
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 contract TGKMainContract {
     address public owner;
@@ -11,6 +12,11 @@ contract TGKMainContract {
         address indexed from,
         address indexed to,
         uint256 amount
+    );
+    event NFTTransferred(
+        address nftContractAddress,
+        address receiverAddress,
+        uint256 tokenID
     );
 
     modifier onlyOwner() {
@@ -45,5 +51,23 @@ contract TGKMainContract {
 
     function getERC20TokenBalance(IERC20 token) public view returns (uint256) {
         return token.balanceOf(address(this));
+    }
+
+    function transferNFT(
+        address nftContractAddress,
+        address receiverAddress,
+        uint256 tokenID
+    ) public onlyOwner {
+        require(
+            IERC721(nftContractAddress).ownerOf(tokenID) == address(this),
+            "You are not the owner of the NFT"
+        );
+
+        IERC721(nftContractAddress).safeTransferFrom(
+            address(this),
+            receiverAddress,
+            tokenID
+        );
+        emit NFTTransferred(nftContractAddress, receiverAddress, tokenID);
     }
 }
