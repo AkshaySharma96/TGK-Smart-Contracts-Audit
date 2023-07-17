@@ -3,6 +3,7 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 
 contract TGKMainContract {
     address public owner;
@@ -34,6 +35,7 @@ contract TGKMainContract {
 
     function withdraw(uint256 amount, address payable to) public onlyOwner {
         require(address(this).balance >= amount, "Insufficient funds");
+        require(to != address(0), "Invalid address");
         to.transfer(amount);
         emit TransferSent(msg.sender, to, amount);
     }
@@ -69,5 +71,14 @@ contract TGKMainContract {
             tokenID
         );
         emit NFTTransferred(nftContractAddress, receiverAddress, tokenID);
+    }
+
+    function onERC721Received(
+        address,
+        address,
+        uint256,
+        bytes calldata
+    ) external pure returns (bytes4) {
+        return this.onERC721Received.selector;
     }
 }
