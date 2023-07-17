@@ -36,7 +36,10 @@ contract TGKMainContract {
     function withdraw(uint256 amount, address payable to) public onlyOwner {
         require(address(this).balance >= amount, "Insufficient funds");
         require(to != address(0), "Invalid address");
-        to.transfer(amount);
+
+        (bool success, ) = to.call{value: amount}("");
+        require(success, "Transfer failed");
+
         emit TransferSent(msg.sender, to, amount);
     }
 
