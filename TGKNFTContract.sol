@@ -5,12 +5,18 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 contract TGKNFTContract is ERC721URIStorage, ERC721Enumerable {
+    address public owner;
+
     event NFTCreated(address _nftOwner, uint256 _nftID);
 
-    constructor(
-        string memory name,
-        string memory symbol
-    ) ERC721(name, symbol) {}
+    constructor(string memory name, string memory symbol) ERC721(name, symbol) {
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner can call this function");
+        _;
+    }
 
     function _beforeTokenTransfer(
         address from,
@@ -43,7 +49,7 @@ contract TGKNFTContract is ERC721URIStorage, ERC721Enumerable {
         address _nftReceiver,
         string memory _tokenURI,
         uint256 _newItemID
-    ) public {
+    ) public onlyOwner {
         _safeMint(_nftReceiver, _newItemID);
         _setTokenURI(_newItemID, _tokenURI);
         emit NFTCreated(_nftReceiver, _newItemID);
