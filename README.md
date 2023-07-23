@@ -1,3 +1,24 @@
+# Project Execution Guide
+
+Below are the steps to get this project up and running:
+
+## Compilation
+1. Start by renaming the file `.env.sample` to `.env`.
+2. Fill in the necessary values within the newly christened `.env` file.
+3. Run the following commands in your terminal from the root directory:
+
+```bash
+npm install
+npx hardhat compile
+```
+
+## Testing
+To run the tests for our project, run the following command:
+
+```bash
+npx hardhat test
+```
+
 # TGKMainContract Documentation
 
 ## Overview
