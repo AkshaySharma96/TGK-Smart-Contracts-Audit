@@ -13,7 +13,7 @@ npx hardhat compile
 ```
 
 ## Testing
-To run the tests for our project, run the following command:
+Before running the tests, make sure you change the pre-defined values in the `main.test.ts` file. To run the tests for our project, run the following command:
 
 ```bash
 npx hardhat test
