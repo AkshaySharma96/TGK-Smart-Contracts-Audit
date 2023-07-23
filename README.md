@@ -202,3 +202,33 @@ This contract inherits from the following OpenZeppelin contracts:
 ## Security Considerations
 
 - The contract allows the owner to mint NFTs. Ensure that the contract owner is a trusted entity to prevent unauthorized minting of NFTs.
+
+#Roles and Ownership
+
+Based on the smart contracts, the system has two main roles:
+
+1. **Owner**: The owner is the address that deployed the `TGKMainContract` and `TGKNFTContract` contracts. The owner has special privileges and can perform certain functions that regular users cannot.
+
+2. **Regular Users**: Regular users are addresses other than the owner. They do not have any special privileges and can only interact with the system through the functions provided by the contracts.
+
+Let's explore the capabilities of each role:
+
+**Owner Role**:
+The owner has full control over the system and can perform the following actions:
+
+1. `withdraw(uint256 amount, address payable to)`: The owner can withdraw Ether from the contract balance and send it to any specified address.
+
+2. `transferERC20(IERC20 token, address to, uint256 amount)`: The owner can transfer ERC20 tokens (specified by the `IERC20` interface) from the contract balance to any specified address.
+
+3. `transferNFT(address nftContractAddress, address receiverAddress, uint256 tokenID)`: The owner can transfer an NFT (specified by the `IERC721` interface) from the contract to a specified receiver address.
+
+4. `mintNFT(address _nftReceiver, string memory _tokenURI, uint256 _newItemID)`: The owner can mint new NFTs using the `TGKNFTContract`. This function allows the owner to create and assign an NFT with a given token ID and token URI to a specified receiver address.
+
+**Regular User Role**:
+Regular users have limited access and can only receive funds and NFTs. They cannot execute any of the functions reserved for the owner, such as withdrawing funds or transferring tokens.
+
+1. `receive() external payable`: Regular users can receive Ether and trigger the `TransferReceived` event when they send Ether to the contract address.
+
+2. The `TGKNFTContract` contract allows regular users to receive NFTs created by the owner using the `mintNFT` function. Regular users can't mint NFTs themselves or transfer NFTs from the contract.
+
+In summary, the owner of the system has complete control over the contract's funds, can transfer ERC20 tokens, and can mint and transfer NFTs. Regular users can receive Ether and NFTs but do not have control over the contract's functionalities or balances.
