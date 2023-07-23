@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const { API_URL_SEPOLIA, API_URL_POLYGON_MUMBAI, PRIVATE_KEY } = process.env;
+const { API_URL_SEPOLIA, PRIVATE_KEY } = process.env;
 
 const config: HardhatUserConfig = {
   solidity: "0.8.18",
@@ -14,10 +14,6 @@ const config: HardhatUserConfig = {
       url: API_URL_SEPOLIA,
       accounts: [`0x${PRIVATE_KEY}`],
       chainId: 11155111,
-    },
-    mumbai: {
-      url: API_URL_POLYGON_MUMBAI,
-      accounts: [`0x${PRIVATE_KEY}`],
     },
   },
 };
