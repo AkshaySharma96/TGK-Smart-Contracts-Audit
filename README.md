@@ -6,8 +6,6 @@ TGKMainContract is a Solidity smart contract that facilitates the transfer and m
 
 ## Contract Details
 
-- **License**: UNLICENSED (This contract does not have a specified license)
-
 - **Solidity Version**: 0.8.18
 
 ## Contract Functions
@@ -91,3 +89,95 @@ TGKMainContract is a Solidity smart contract that facilitates the transfer and m
 ## Security Considerations
 
 - The contract allows the owner to withdraw Ether and transfer ERC-20 tokens. Ensure that the contract owner is a trusted entity to prevent unauthorized access to funds.
+
+
+# TGKNFTContract Documentation
+
+## Overview
+
+TGKNFTContract is a Solidity smart contract that represents an ERC-721 Non-Fungible Token (NFT) with additional features from OpenZeppelin's ERC721 extensions. The contract allows the owner to mint NFTs, transfer ownership, and manage metadata for the tokens.
+
+## Contract Details
+
+- **Solidity Version**: 0.8.18
+
+## Contract Inheritance
+
+This contract inherits from the following OpenZeppelin contracts:
+
+1. ERC721: This contract implements the ERC-721 standard for NFTs.
+2. ERC721URIStorage: This contract extends ERC721 and adds support for managing token metadata URIs.
+3. ERC721Enumerable: This contract extends ERC721URIStorage and adds support for querying NFTs by index.
+
+## Contract Functions
+
+### 1. `constructor(string memory name, string memory symbol)`
+
+- **Visibility**: Public
+- **Parameters**:
+  - `name` (string): The name of the NFT contract.
+  - `symbol` (string): The symbol (ticker) of the NFT contract.
+- **Description**: The constructor function initializes the contract and sets the deployer's address as the contract owner. It also sets the name and symbol of the NFT contract.
+
+### 2. `mintNFT(address _nftReceiver, string memory _tokenURI, uint256 _newItemID)`
+
+- **Visibility**: Public
+- **Modifiers**: `onlyOwner`
+- **Parameters**:
+  - `_nftReceiver` (address): The address of the recipient who will receive the minted NFT.
+  - `_tokenURI` (string): The metadata URI of the NFT, which provides additional information about the token.
+  - `_newItemID` (uint256): The unique ID of the newly minted NFT.
+- **Description**: This function allows the contract owner to mint a new ERC-721 NFT and transfer ownership to the specified `_nftReceiver`. The function also sets the metadata URI for the minted NFT. Upon successful minting, it emits an `NFTCreated` event.
+
+### 3. `_beforeTokenTransfer(address from, address to, uint256 tokenId, uint256 batchSize)`
+
+- **Visibility**: Internal
+- **Overrides**: ERC721, ERC721Enumerable
+- **Parameters**:
+  - `from` (address): The address from which the NFTs are being transferred.
+  - `to` (address): The address to which the NFTs are being transferred.
+  - `tokenId` (uint256): The ID of the NFT being transferred.
+  - `batchSize` (uint256): The number of NFTs being transferred (for batch transfers).
+- **Description**: This internal function is an override to manage token transfers. It ensures that token transfers comply with ERC-721 and ERC-721Enumerable standards.
+
+### 4. `_burn(uint256 tokenId)`
+
+- **Visibility**: Internal
+- **Overrides**: ERC721, ERC721URIStorage
+- **Parameters**:
+  - `tokenId` (uint256): The ID of the NFT being burned (destroyed).
+- **Description**: This internal function is an override to handle the burning (destruction) of ERC-721 tokens. It ensures that the token is safely burned and removed from the contract.
+
+### 5. `tokenURI(uint256 tokenId)`
+
+- **Visibility**: Public
+- **Overrides**: ERC721, ERC721URIStorage
+- **Parameters**:
+  - `tokenId` (uint256): The ID of the NFT.
+- **Returns**: `string`: The metadata URI associated with the specified token ID.
+- **Description**: This function allows anyone to get the metadata URI associated with a specific NFT.
+
+### 6. `supportsInterface(bytes4 interfaceId)`
+
+- **Visibility**: Public
+- **Overrides**: ERC721, ERC721URIStorage, ERC721Enumerable
+- **Parameters**:
+  - `interfaceId` (bytes4): The interface ID to check support for.
+- **Returns**: `bool`: `true` if the contract supports the given interface, otherwise `false`.
+- **Description**: This function checks if the contract supports a given interface by its interface ID.
+
+## Events
+
+### 1. `NFTCreated(address _nftOwner, uint256 _nftID)`
+
+- **Description**: This event is emitted when a new NFT is minted using the `mintNFT` function. It indicates the address of the NFT owner and the ID of the minted NFT.
+
+## Modifiers
+
+### 1. `onlyOwner()`
+
+- **Description**: This modifier restricts the execution of certain functions to only the contract owner. If anyone else attempts to call a function with this modifier, the transaction will revert with the message "Only owner can call this function."
+
+## Security Considerations
+
+- The contract allows the owner to mint NFTs. Ensure that the contract owner is a trusted entity to prevent unauthorized minting of NFTs.
