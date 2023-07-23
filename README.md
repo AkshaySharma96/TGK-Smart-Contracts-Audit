@@ -203,7 +203,7 @@ This contract inherits from the following OpenZeppelin contracts:
 
 - The contract allows the owner to mint NFTs. Ensure that the contract owner is a trusted entity to prevent unauthorized minting of NFTs.
 
-#Roles and Ownership
+# Roles and Ownership
 
 Based on the smart contracts, the system has two main roles:
 
