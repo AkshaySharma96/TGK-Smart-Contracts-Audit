@@ -17,7 +17,7 @@ describe("Running Tests...", function () {
   let erc721Token: IERC721;
 
   const ERC20TokenAddress = "0x779877A7B0D9E8603169DdbD7836e478b4624789";
-  const ERC721TokenAddress = "0x84629eb730e094B0fefA52DCEc2d7Aba53c276D3";
+  const ERC721TokenAddress = "0x84629eb730e094B0fefA52DCEc2d7Aba53c276D3"; //Replace With Your NFT Address
 
   before(async function () {
     [owner] = await ethers.getSigners();
@@ -85,7 +85,7 @@ describe("Running Tests...", function () {
     });
 
     it("Should transfer NFT", async function () {
-      // Assume that the contract owns the token with ID 1
+      // Assume that the contract owns the Token with ID 1. Replace with Your Token ID
       const tokenID = 1;
 
       // Transfer NFT from the contract to the receiver
