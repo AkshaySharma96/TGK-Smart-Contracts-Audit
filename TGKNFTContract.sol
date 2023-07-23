@@ -4,7 +4,7 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
-contract TGKNFTContract is ERC721URIStorage, ERC721Enumerable {
+contract TGKNFTContract is ERC721, ERC721URIStorage, ERC721Enumerable {
     address public owner;
 
     event NFTCreated(address _nftOwner, uint256 _nftID);
@@ -41,7 +41,12 @@ contract TGKNFTContract is ERC721URIStorage, ERC721Enumerable {
 
     function supportsInterface(
         bytes4 interfaceId
-    ) public view override(ERC721, ERC721Enumerable) returns (bool) {
+    )
+        public
+        view
+        override(ERC721, ERC721URIStorage, ERC721Enumerable)
+        returns (bool)
+    {
         return super.supportsInterface(interfaceId);
     }
 
